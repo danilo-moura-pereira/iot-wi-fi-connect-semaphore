@@ -1,0 +1,21 @@
+menu "Configuração do Wi-Fi (Wi-Fi Configuration)"
+
+    config ESP_WIFI_SSID
+        string "Wi-Fi SSID"
+        default "Network SSID"
+        help
+            Nome da rede Wi-Fi
+
+    config ESP_WIFI_PASSWORD
+        string "Wi-Fi Password"
+        default "Network password"
+        help
+            Senha da rede Wi-Fi (WPA ou WPA2)
+
+    config ESP_MAXIMUM_RETRY
+        int "Nº máximo de tentativas de conexão à rede Wi-Fi"
+        default 5
+        help
+            Indique o número máximo de tentativas de conexão à rede Wi-Fi
+
+endmenu
