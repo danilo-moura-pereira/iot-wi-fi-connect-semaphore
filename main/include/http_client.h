@@ -1,6 +1,6 @@
 // Default "ifndef" in C Language
-#ifndef http_client_h
-#define http_client_h
+#ifndef HTTP_CLIENT_H
+#define HTTP_CLIENT_H
 
 // http_request funcion public declaration
 void http_request();

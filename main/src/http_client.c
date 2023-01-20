@@ -19,11 +19,11 @@
 
 #include "http_client.h"
 
-static const char *TAG = "HTTP_CLIENT";
+static const char* TAG = "HTTP_CLIENT";
 
-esp_err_t _http_event_handle(esp_http_client_event_t *evt)
+esp_err_t http_event_handle(esp_http_client_event_t *event)
 {
-    switch(evt->event_id) {
+    switch(event->event_id) {
         case HTTP_EVENT_ERROR:
             ESP_LOGD(TAG, "HTTP_EVENT_ERROR");
             break;
@@ -34,17 +34,17 @@ esp_err_t _http_event_handle(esp_http_client_event_t *evt)
             ESP_LOGD(TAG, "HTTP_EVENT_HEADER_SENT");
             break;
         case HTTP_EVENT_ON_HEADER:
-            ESP_LOGD(TAG, "HTTP_EVENT_ON_HEADER, key=%s, value=%s", evt->header_key, evt->header_value);
+            ESP_LOGD(TAG, "HTTP_EVENT_ON_HEADER, key=%s, value=%s", event->header_key, event->header_value);
             break;
         case HTTP_EVENT_ON_DATA:
-            ESP_LOGD(TAG, "HTTP_EVENT_ON_DATA, len=%d", evt->data_len);
+            ESP_LOGD(TAG, "HTTP_EVENT_ON_DATA, len=%d", event->data_len);
             /*
              *  Check for chunked encoding is added as the URL for chunked encoding used in this example returns binary data.
              *  However, event handler can also be used in case chunked encoding is used.
              */
-            if (!esp_http_client_is_chunked_response(evt->client)) {
-                //Print http response on monitor
-                printf("%.*s", evt->data_len, (char*)evt->data);
+            if (!esp_http_client_is_chunked_response(event->client)) {
+                // Print http response on monitor
+                printf("%.*s", event->data_len, (char*)event->data);
             }
 
             break;
@@ -65,7 +65,7 @@ void http_request(void)
         //.host = "http://quotes.rest",
         //.path = "/qod",
         //.transport_type = HTTP_TRANSPORT_OVER_TCP,
-        .event_handler = _http_event_handle
+        .event_handler = http_event_handle
     };
     esp_http_client_handle_t client = esp_http_client_init(&config);
 
@@ -154,7 +154,7 @@ void https_request(void)
         //.host = "http://quotes.rest",
         //.path = "/qod",
         //.transport_type = HTTP_TRANSPORT_OVER_TCP,
-        .event_handler = _http_event_handle
+        .event_handler = http_event_handle
         //.cert_pem = howsmyssl_com_root_cert_pem_start
     };
     esp_http_client_handle_t client = esp_http_client_init(&config);
